@@ -1,0 +1,21 @@
+version: "3.9"
+
+networks:
+  shared-network:
+    driver: bridge
+    external: true
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: global-nginx
+    networks:
+      - shared-network
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot_challenges/sams:/var/www/certbot_challenges/sams:ro
+      - /var/www/certbot_challenges/timesheet:/var/www/certbot_challenges/timesheet:ro
